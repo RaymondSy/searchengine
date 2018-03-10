@@ -7,6 +7,9 @@ from collections import defaultdict
 import json
 import pymongo
 from pymongo import MongoClient
+import nltk
+from nltk import word_tokenize
+
 
 word_dict = defaultdict(list)
 
@@ -25,8 +28,8 @@ def tokenize(contents, f, p):
     found = False
     #print (soup.get_text())
     text = soup.get_text()
-    tokens =
-    tokens = re.findall("[A-Z]{2,}(?![a-z])|[A-Z][a-z]+(?=[A-Z])|[\w]+", soup.get_text())
+    tokens = nltk.word_tokenize(text)
+    #tokens = re.findall("[A-Z]{2,}(?![a-z])|[A-Z][a-z]+(?=[A-Z])|[\w]+", soup.get_text())
     # Finds all the words matching the regex and puts it in a list
 
     for token in tokens:
@@ -57,15 +60,15 @@ def main():
     client = MongoClient('localhost', 27017)
     db = client.invertedindex
     posts = db.index
-
+    counter = 1
     try:
         # tries to open the file, if any error comes out, jump to except statement
-        for i in range(0, 1):
+        for i in range(0, 75):
             for x in range(0, 500):
                 c = readfile(i,x)
                 tokenize(c, i, x)
-                # counter += 1
-                # print (counter)
+                counter += 1
+                print (counter)
     except:
         print "File not found"
 
@@ -81,9 +84,9 @@ def main():
                      'records': record[1]}
         result = posts.insert_one(post_data)
 
-    bills_post = posts.find_one({'token': 'this'})
-    for item in bills_post['records']:
-        print(item)
+    # bills_post = posts.find_one({'token': 'this'})
+    # for item in bills_post['records']:
+    #     print(item)
 
 if __name__ == "__main__":
     main()
