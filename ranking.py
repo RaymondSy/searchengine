@@ -7,7 +7,7 @@ from pymongo import MongoClient
 
 def tdidfCalc():
     client = MongoClient('localhost', 27017)
-    db = client.invertedindex
+    db = client.invertedindex2
     posts = db.index
     documents = posts.find({})
     #documents = posts.find_one({'token': 'cool'})
@@ -16,7 +16,7 @@ def tdidfCalc():
         l = [(index, record) for index, record in enumerate(doc['records'])]
         for index, record in l:
             # print record
-            tf = math.log10(record['Frequency'])
+            tf = 1 + math.log10(record['Frequency'])
             idf = math.log10((37497/postings))
             tfidf = tf*idf
             record['tfidf'] = tfidf

@@ -28,8 +28,8 @@ def tokenize(contents, f, p):
     found = False
     #print (soup.get_text())
     text = soup.get_text()
-    tokens = nltk.word_tokenize(text)
-    #tokens = re.findall("[A-Z]{2,}(?![a-z])|[A-Z][a-z]+(?=[A-Z])|[\w]+", soup.get_text())
+    #tokens = nltk.word_tokenize(text)
+    tokens = re.findall("[A-Z]{2,}(?![a-z])|[A-Z][a-z]+(?=[A-Z])|[\w]+", soup.get_text())
     # Finds all the words matching the regex and puts it in a list
 
     for token in tokens:
@@ -58,7 +58,7 @@ def tokenize(contents, f, p):
 
 def main():
     client = MongoClient('localhost', 27017)
-    db = client.invertedindex
+    db = client.invertedindex2
     posts = db.index
     counter = 1
     try:
